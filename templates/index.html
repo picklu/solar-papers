@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Papers on DSSCs/PrSCs</title>
+</head>
+<body>
+    <h1>Papers on DSSCs/PrSCs</h1>
+    {{ pagination.info }}
+    {{ pagination.links }}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Authors</th>
+          <th>Title</th>
+          <th>DOI</th
+        </tr>
+      </thead>
+      <tbody>
+        {% for paper in papers %}
+          <tr>
+            <td>{{ loop.index + pagination.skip }}</td>
+            <td>{{ paper.Authors }}</td>
+            <td>{{ paper.Title }}</td>
+            <td>{{ paper.DOI }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {{ pagination.links }}
+</body>
+</html>
