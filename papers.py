@@ -30,7 +30,7 @@ def home():
         page = request.args.get(get_page_parameter(), type=int, default=1)
         per_page = request.args.get(get_per_page_parameter(), type=int, default=10)
         total, papers = get_json_data(filepath, page, per_page)
-        pagination = Pagination(page=page, total=total, search=search, record_name='papers')
+        pagination = Pagination(page=page, total=total, search=search, record_name='papers', css_framework='bootstrap4')
         
         return render_template('index.html',
                           papers=papers,
