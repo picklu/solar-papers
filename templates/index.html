@@ -44,7 +44,7 @@
         {% for paper in papers %}
           <tr>
             <td>{{ loop.index + pagination.skip }}</td>
-            <td>{{ paper.Authors }}</td>
+            <td>{{ paper.Authors.split(";")[0] }} et al.</td>
             <td>{{ paper.Title }}</td>
             <td>{{ paper.DOI }}</td>
           </tr>
