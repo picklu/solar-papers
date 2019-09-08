@@ -4,12 +4,29 @@
     width: 40em;
     margin: .5em;
     margin-left: 0;
-    font-size: 12px;
+    font-size: 1.2rem;
+}
+.pagination-page-info::first-letter {
+    font-size: inherit;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.pagination-page-info::after {
+    content: ".";
+    font-weight: 700;
 }
 .pagination-page-info b {
     color: black;
-    background: #6aa6ef;
     padding-left: 2px;
     padding: .1em .25em;
-    /*font-size: 150%;*/
+}
+.fixed {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.footer {
+    padding-top: 20px;
+    padding-bottom: 50px;
 }
