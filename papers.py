@@ -17,16 +17,15 @@ def get_json_data(filename, page, per_page):
 
 
 @app.route('/')
-def home():
-    name = request.args.get("name", "World")
-
-    if name == "dsscs" or name == "prscs":
+@app.route('/<solar>')
+def home(solar="world"):
+    if solar == "dsscs" or solar == "prscs":
         search = False
         q = request.args.get('q')
         if q:
             search = True
         
-        filepath = path.join(folder, f"{name}_papers.json")
+        filepath = path.join(folder, f"{solar}_papers.json")
         page = request.args.get(get_page_parameter(), type=int, default=1)
         per_page = request.args.get(get_per_page_parameter(), type=int, default=20)
         total, papers = get_json_data(filepath, page, per_page)
