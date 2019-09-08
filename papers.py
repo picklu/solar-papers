@@ -33,8 +33,9 @@ def home(solar="world"):
                                 total=total, search=search, 
                                 record_name='papers', css_framework='bootstrap4')
         
-        return render_template('papers.html', papers=papers, pagination=pagination)
+        return render_template('papers.html', fixed="", 
+                                papers=papers, pagination=pagination)
     else:
-        return render_template('home.html')
+        return render_template('home.html', fixed="fixed")
 
 
