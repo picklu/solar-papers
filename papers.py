@@ -28,14 +28,13 @@ def home():
         
         filepath = path.join(folder, f"{name}_papers.json")
         page = request.args.get(get_page_parameter(), type=int, default=1)
-        per_page = request.args.get(get_per_page_parameter(), type=int, default=10)
+        per_page = request.args.get(get_per_page_parameter(), type=int, default=20)
         total, papers = get_json_data(filepath, page, per_page)
-        pagination = Pagination(page=page, total=total, search=search, record_name='papers', css_framework='bootstrap4')
+        pagination = Pagination(page=page, per_page=per_page, 
+                                total=total, search=search, 
+                                record_name='papers', css_framework='bootstrap4')
         
-        return render_template('index.html',
-                          papers=papers,
-                          pagination=pagination,
-                          )
+        return render_template('index.html', papers=papers, pagination=pagination)
     else:
         return f"Hello, {escape(name)}! It works."
 
