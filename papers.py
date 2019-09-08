@@ -34,8 +34,8 @@ def home():
                                 total=total, search=search, 
                                 record_name='papers', css_framework='bootstrap4')
         
-        return render_template('index.html', papers=papers, pagination=pagination)
+        return render_template('papers.html', papers=papers, pagination=pagination)
     else:
-        return f"Hello, {escape(name)}! It works."
+        return render_template('home.html')
 
 
