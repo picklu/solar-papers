@@ -18,7 +18,7 @@ def get_json_data(filename, page, per_page):
 
 @app.route('/')
 @app.route('/<solar>')
-def home(solar="world"):
+def home(solar=""):
     if solar == "dsscs" or solar == "prscs":
         search = False
         q = request.args.get('q')
@@ -33,7 +33,7 @@ def home(solar="world"):
                                 total=total, search=search, 
                                 record_name='papers', css_framework='bootstrap4')
         
-        return render_template('papers.html', fixed="", 
+        return render_template('papers.html', fixed="", solar=solar,
                                 papers=papers, pagination=pagination)
     else:
         return render_template('home.html', fixed="fixed")

@@ -1,8 +1,23 @@
 .status {
-    padding-right: 50px;
+    text-align: left;
     position: fixed;
-    top: 40%;
     right: -10px;
+    width: 140px;
+}
+.status__solar,
+.status__row {
+    margin-bottom: 5px;
+    width: 100%;
+}
+.status__solar {
+    top: 30%;
+}
+.status__row {
+    top: 35%;
+}
+.status__solar-info,
+.status__row-info {
+    text-align: right;
 }
 .pagination-page-info {
     padding: .6em;
