@@ -17,8 +17,8 @@
         <tr>
           <td>{{ loop.index + pagination.skip }}</td>
           <td>{{ paper.Authors.split(";")[0] }} et al.</td>
-          <td>{{ paper.Title }}</td>
-          <td>{{ paper.DOI }}</td>
+          <td><a href="https://www.google.com/search?q={{ paper.title }}">{{ paper.Title }}</a></td>
+          <td><a href="https://www.google.com/search?q={{ paper.DOI }}">{{ paper.DOI }}</a></td>
         </tr>
       {% endfor %}
     </tbody>
