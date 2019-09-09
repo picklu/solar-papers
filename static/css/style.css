@@ -8,12 +8,7 @@
     margin-bottom: 5px;
     width: 100%;
 }
-.status__solar {
-    top: 30%;
-}
-.status__row {
-    top: 35%;
-}
+
 .status__solar-info,
 .status__row-info {
     text-align: right;
