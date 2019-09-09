@@ -1,5 +1,4 @@
 .status {
-    text-align: left;
     position: fixed;
     right: -10px;
     width: 140px;
@@ -46,6 +45,12 @@
     left: 0;
     bottom: 0;
     width: 100%;
+}
+.query {
+    cursor: pointer;
+}
+.query:hover {
+    text-decoration: underline;
 }
 .footer {
     margin-bottom: 0;

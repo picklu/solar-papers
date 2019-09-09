@@ -18,8 +18,8 @@
         <tr id="{{ solar }}-{{ loop.index + pagination.skip - 1 }}">
           <td>{{ loop.index + pagination.skip }}</td>
           <td>{{ paper.Authors.split(";")[0] }} et al.</td>
-          <td><a href="https://www.google.com/search?q={{ paper.DOI }}" target="_blank">{{ paper.DOI }}</a></td>
-          <td><a href="https://www.google.com/search?q={{ paper.Title }}" target="_blank">{{ paper.Title }}</a></td>
+          <td class="query">{{ paper.DOI }}</td>
+          <td class="query">{{ paper.Title }}</td>
         </tr>
       {% endfor %}
     </tbody>
