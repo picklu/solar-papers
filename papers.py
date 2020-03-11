@@ -15,26 +15,29 @@ def get_json_data(filename, page, per_page):
         return [len(data), data[start : end]]
 
 
+# index 
 @app.route('/')
-@app.route('/<solar>')
-def home(solar=""):
-    if solar == "dsscs" or solar == "prscs":
-        search = False
-        q = request.args.get('q')
-        if q:
-            search = True
-        
-        filepath = path.join(folder, f"{solar}_papers.json")
-        page = request.args.get(get_page_parameter(), type=int, default=1)
-        per_page = request.args.get(get_per_page_parameter(), type=int, default=20)
-        total, papers = get_json_data(filepath, page, per_page)
-        pagination = Pagination(page=page, per_page=per_page, 
-                                total=total, search=search, 
-                                record_name='papers', css_framework='bootstrap4')
-        
-        return render_template('papers.html', fixed="", solar=solar,
-                                papers=papers, pagination=pagination)
-    else:
-        return render_template('home.html', fixed="fixed")
+def index(solar=""):
+    search = False
+    q = request.args.get('q')
+    if q:
+        search = True
+    
+    filepath = path.join(folder, "papers.json")
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = request.args.get(get_per_page_parameter(), type=int, default=20)
+    total, papers = get_json_data(filepath, page, per_page)
+    pagination = Pagination(page=page, per_page=per_page, 
+                            total=total, search=search, 
+                            record_name='papers', css_framework='bootstrap4')
+    
+    return render_template('index.html', fixed="", solar=solar,
+                            papers=papers, pagination=pagination)
+
+
+# 404 error
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html")
 
 
