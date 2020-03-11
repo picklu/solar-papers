@@ -1,4 +1,3 @@
-import csv
 from os import path
 from flask import Flask, escape, json, request, render_template
 from flask_paginate import Pagination, get_page_parameter, get_per_page_parameter
