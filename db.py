@@ -1,5 +1,6 @@
 import sqlite3
 from config import DATABASE, SCHEMA
+from flask import g
 
 INSERT = 'INSERT INTO papers (PaperNumber, PageNumber) VALUES(?, ?);'
 FETCH = 'SELECT * FROM papers;'
@@ -17,7 +18,7 @@ def get_db():
     db.row_factory = make_dicts
     return db
 
-def insert_papers(args, many=False):
+def insert_papers(app, args, many=False):
     with app.app_context():
         conn = get_db()
         cursor = conn.cursor()
@@ -30,7 +31,7 @@ def insert_papers(args, many=False):
         conn.close()
         return total_changes
 
-def get_papers(all=False):
+def get_papers(app, all=False):
     with app.app_context():
         conn = get_db()
         cursor = conn.cursor()
@@ -43,7 +44,7 @@ def get_papers(all=False):
         conn.close()
         return data
 
-def init_db():
+def init_db(app):
     with app.app_context():
         db = get_db()
         with app.open_resource(SCHEMA, mode='r') as f:
