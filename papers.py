@@ -1,53 +1,10 @@
-import sqlite3
-from os import path
 from flask import Flask, escape, g, json, request, render_template
 from flask_paginate import Pagination, get_page_parameter, get_per_page_parameter
+from config import DATA, JSON_PATH
+from db import insert_papers, get_papers
 
 
 app = Flask(__name__)
-
-DATA = path.join(path.dirname(__file__), "data")
-DATABASE = path.join(DATA, 'database.db')
-SCHEMA = path.join(DATA, 'schema.sql')
-INSERT = 'INSERT INTO papers (PaperNumber, PageNumber) VALUES(?, ?);'
-FETCH = 'SELECT * FROM papers;'
-FETCH_ONE = 'SELECT * FROM papers ORDER BY Id DESC LIMIT 1;'
-
-
-def make_dicts(cursor, row):
-    return dict((cursor.description[idx][0], value)
-                for idx, value in enumerate(row))
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    db.row_factory = make_dicts
-    return db
-
-def insert_paper(args):
-    with app.app_context():
-        conn = get_db()
-        cursor = conn.cursor()
-        cursor.execute(INSERT, args)
-        conn.commit()
-        total_changes = conn.total_changes
-        conn.close()
-        return total_changes
-
-def get_papers(all=False):
-    with app.app_context():
-        conn = get_db()
-        cursor = conn.cursor()
-        if all:
-            cursor.execute(FETCH)
-            data = cursor.fetchall()
-        else:
-            cursor.execute(FETCH_ONE)
-            data = cursor.fetchone()
-        conn.close()
-        return data
-
 
 
 @app.teardown_appcontext
@@ -79,10 +36,10 @@ def index(solar=""):
     if q:
         search = True
     
-    filepath = path.join(DATA, "papers.json")
+    
     page = request.args.get(get_page_parameter(), type=int, default=1)
     per_page = request.args.get(get_per_page_parameter(), type=int, default=20)
-    total, papers = get_json_data(filepath, page, per_page)
+    total, papers = get_json_data(JSON_PATH, page, per_page)
     pagination = Pagination(page=page, per_page=per_page, 
                             total=total, search=search, 
                             record_name='papers', css_framework='bootstrap4')
