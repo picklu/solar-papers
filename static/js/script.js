@@ -25,7 +25,8 @@
 
     const updateStatusPage = event => {
         const target = event.target;
-        pageNumber = parseInt(window.location.href.split("=")[1]) || 1;
+        const match = window.location.href.match(/\?page=([\d]*)/)
+        pageNumber = match ? parseInt(match[1]) : 1;
         paperNumber = localStorage.getItem("paperNumber") || 1;
         localStorage.setItem("pageNumber", pageNumber);
         localStorage.setItem("paperNumber", paperNumber);
