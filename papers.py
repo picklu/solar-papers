@@ -29,8 +29,7 @@ def index(solar=""):
     q = request.args.get('q')
     if q:
         search = True
-    page_number = get_papers(app).get("PageNumber", 1)
-    page = request.args.get(get_page_parameter(), type=int, default=page_number)
+    page = request.args.get(get_page_parameter(), type=int, default=1)
     per_page = request.args.get(get_per_page_parameter(), type=int, default=20)
     total, papers = get_json_data(JSON_PATH, page, per_page)
     pagination = Pagination(page=page, per_page=per_page, 
@@ -45,6 +44,7 @@ def index(solar=""):
 # search history
 @app.route('/status', methods=['GET', 'POST'])
 def status():
+    print(request.method)
     # show history in json file
     if request.method == 'GET':
         data = get_papers(app, True)
@@ -59,12 +59,13 @@ def status():
     if request.method == 'POST':
         paper_number = request.values.get('paperNumber')
         page_number = request.values.get('pageNumber')
-        changes = insert_papers(app, (paper_number, page_number))
         result = 'fail'
         status = 500
-        if changes:
-           result = 'success'
-           status = 200 
+        if paper_number and page_number:
+            changes = insert_papers(app, (paper_number, page_number))
+            if changes:
+                result = 'success'
+                status = 200 
         response = app.response_class(
             response=json.dumps({'result': result}),
             status=status,
