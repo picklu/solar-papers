@@ -29,9 +29,8 @@ def index(solar=""):
     q = request.args.get('q')
     if q:
         search = True
-    
-    
-    page = request.args.get(get_page_parameter(), type=int, default=1)
+    page_number = get_papers(app).get("PageNumber", 1)
+    page = request.args.get(get_page_parameter(), type=int, default=page_number)
     per_page = request.args.get(get_per_page_parameter(), type=int, default=20)
     total, papers = get_json_data(JSON_PATH, page, per_page)
     pagination = Pagination(page=page, per_page=per_page, 
@@ -40,6 +39,17 @@ def index(solar=""):
     
     return render_template('index.html', fixed="", solar=solar,
                             papers=papers, pagination=pagination)
+
+
+@app.route('/status')
+def status():
+    data = get_papers(app, True)
+    response = app.response_class(
+        response=json.dumps(data),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
 
 
 # 404 error
