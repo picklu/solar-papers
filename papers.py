@@ -41,15 +41,36 @@ def index(solar=""):
                             papers=papers, pagination=pagination)
 
 
-@app.route('/status')
+
+# search history
+@app.route('/status', methods=['GET', 'POST'])
 def status():
-    data = get_papers(app, True)
-    response = app.response_class(
-        response=json.dumps(data),
-        status=200,
-        mimetype='application/json'
-    )
-    return response
+    # show history in json file
+    if request.method == 'GET':
+        data = get_papers(app, True)
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+    
+    # update history
+    if request.method == 'POST':
+        paper_number = request.values.get('paperNumber')
+        page_number = request.values.get('pageNumber')
+        changes = insert_papers(app, (paper_number, page_number))
+        result = 'fail'
+        status = 500
+        if changes:
+           result = 'success'
+           status = 200 
+        response = app.response_class(
+            response=json.dumps({'result': result}),
+            status=status,
+            mimetype='application/json'
+        )
+        return response            
 
 
 # 404 error
