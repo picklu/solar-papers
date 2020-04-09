@@ -30,7 +30,7 @@ def index(solar=""):
     if q:
         search = True
     # history
-    last_visited = get_papers(app)
+    last_visited = get_papers(app) or {}
     paper_number = last_visited.get('PaperNumber', 1)
     page_number = last_visited.get('PageNumber', 1)
     history = { 
