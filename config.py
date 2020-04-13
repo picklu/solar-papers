@@ -1,7 +1,8 @@
-from os import path
+from os import environ, path
 
 
 DATA = path.join(path.dirname(__file__), "data")
 JSON_PATH = path.join(DATA, "papers.json")
-DATABASE = path.join(DATA, 'database.db')
-SCHEMA = path.join(DATA, 'schema.sql')
+DB_USER = environ["DB_USER"]
+DB_PASS = environ["DB_PASS"]
+DB_URI = "mongodb://%s:%s@ds035137.mlab.com:35137/solarpapers?retryWrites=false"

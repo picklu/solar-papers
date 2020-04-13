@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS papers
-(
-    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-    PaperNumber INT NOT NULL,
-    PageNumber INT  NOT NULL
-);

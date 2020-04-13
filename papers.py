@@ -1,18 +1,11 @@
 from flask import Flask, escape, g, json, request, render_template
 from flask_paginate import Pagination, get_page_parameter, get_per_page_parameter
 from config import DATA, JSON_PATH
-from db import insert_papers, get_papers
 
 
 app = Flask(__name__)
 
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
-
+from db import insert_papers, get_papers
 
 def get_json_data(filename, page, per_page):
     with open(filename) as infile:
@@ -30,7 +23,7 @@ def index(solar=""):
     if q:
         search = True
     # history
-    last_visited = get_papers(app) or {}
+    last_visited = get_papers(False) or {}
     paper_number = last_visited.get('PaperNumber', 1)
     page_number = last_visited.get('PageNumber', 1)
     history = { 
@@ -54,7 +47,7 @@ def index(solar=""):
 def status():
     # show history in json file
     if request.method == 'GET':
-        data = get_papers(app, True)
+        data = get_papers(False)
         response = app.response_class(
             response=json.dumps(data),
             status=200,
@@ -69,7 +62,7 @@ def status():
         result = 'fail'
         status = 500
         if paper_number and page_number:
-            changes = insert_papers(app, (paper_number, page_number))
+            changes = insert_papers({"paperNumber": paper_number, "pageNumber": page_number})
             if changes:
                 result = 'success'
                 status = 200 
