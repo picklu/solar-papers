@@ -14,8 +14,8 @@
   </header>
   
   <div class="status">
-    <div class="status__solar btn btn-warning">page: <span class="status__page-info"></span></div>
-    <div class="status__row btn btn-info">paper: <span class="status__row-info"></span></div>
+    <div class="status__solar btn btn-warning">page: <span id="page-number" class="status__page-info">{% block page %}1{% endblock %}</span></div>
+    <div class="status__row btn btn-info">paper: <span id="paper-number" class="status__row-info">{% block paper  %}1{% endblock %}</span></div>
   </div>
   
   <main class="main container">

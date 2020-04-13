@@ -1,7 +1,19 @@
 
 (() => {
-    var pageNumber = localStorage.getItem("pageNumber") || 1;
-    var paperNumber = localStorage.getItem("paperNumber") || 1;
+    var pageNumberDOM = document.getElementById('page-number');
+    var paperNumberDOM = document.getElementById('paper-number');
+    var pageNumber = pageNumberDOM.innerText;
+    var paperNumber = paperNumberDOM.innerText;
+
+    const openBrowser = (query) => {
+        const url = "https://www.google.com/search?q=" + query;
+        window.open(url);
+    };
+
+    const displayStatus = () => {
+        pageNumberDOM.textContent = pageNumber;
+        paperNumberDOM.textContent = paperNumber;
+    };
 
     const postData = (data) => {
         fetch('/status',
@@ -20,43 +32,30 @@
             fetch('/status')
                 .then(res => res.json())
                 .then(data => {
-                    window.location.href = `/?page=${data.pageNumber || 1}&paper=${data.paperNumber || 1}`;
+                    window.location.href = `/?page=${data.pageNumber || 1}`;
                 })
                 .catch(error => console.log(error));
         }
     };
 
-    const openBrowser = (query) => {
-        const url = "https://www.google.com/search?q=" + query;
-        window.open(url);
-    };
 
-    const displayStatus = () => {
-        document.querySelector(".status__page-info").textContent = pageNumber;
-        document.querySelector(".status__row-info").textContent = paperNumber;
-    };
-
-    const updateStatusPage = event => {
-        const match = window.location.href.match(/\?page=([\d]*)/)
-        pageNumber = match ? parseInt(match[1]) : 1;
-        paperNumber = localStorage.getItem("paperNumber") || 1;
-        localStorage.setItem("pageNumber", pageNumber);
-        localStorage.setItem("paperNumber", paperNumber);
-        displayStatus();
-    }
-
-    const updateStatusRow = event => {
+    const updateStatus = event => {
         const target = event.target;
-        let formData = new FormData();
         let query;
 
         if (target.nodeName === "TD" && target.className === "query") {
+            const match = window.location.href.match(/\?page=([\d]*)/)
             const rowId = target.parentElement.id;
-            paperNumber = parseInt(rowId.split("-")[1]) + 1;
+            const now = (new Date()).toISOString();
+            let formData = new FormData();
+
             query = target.textContent;
-            localStorage.setItem("paperNumber", paperNumber);
+            pageNumber = match ? parseInt(match[1]) : 1;
+            paperNumber = parseInt(rowId.split("-")[1]) + 1;
+
             formData.append('paperNumber', paperNumber);
             formData.append('pageNumber', pageNumber);
+            formData.append('timeStamp', now);
             postData(formData);
         }
         displayStatus();
@@ -65,7 +64,6 @@
             openBrowser(query);
         }
     };
-    window.addEventListener('load', updateStatusPage);
-    document.addEventListener('click', updateStatusRow);
+    document.addEventListener('click', updateStatus);
     document.addEventListener('click', lastVisitedPage);
 })()

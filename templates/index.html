@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
  
+{% block page %}{{ history.page }}{% endblock %}
+{% block paper %}{{ history.paper }}{% endblock %}
 {% block container %}
   <p>Last visited: <a id="btn-visited" href="/">page</a></p>
   {{ pagination.info }} 
