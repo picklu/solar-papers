@@ -24,8 +24,8 @@ def index(solar=""):
         search = True
     # history
     last_visited = get_papers(False) or {}
-    paper_number = last_visited.get('PaperNumber', 1)
-    page_number = last_visited.get('PageNumber', 1)
+    paper_number = last_visited.get('paperNumber', 1)
+    page_number = last_visited.get('pageNumber', 1)
     history = { 
         "paper_number": paper_number,
         "page_number": page_number
@@ -47,7 +47,7 @@ def index(solar=""):
 def status():
     # show history in json file
     if request.method == 'GET':
-        data = get_papers(False)
+        data = get_papers()
         response = app.response_class(
             response=json.dumps(data),
             status=200,

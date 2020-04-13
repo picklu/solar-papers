@@ -28,6 +28,7 @@ def insert_papers(args):
 
 
 def get_papers(all=True):
+    docs = [OI_to_str(doc) for doc in mongo.db.papers.find({})]
     if all:
-        return [OI_to_str(doc) for doc in mongo.db.papers.find({}).sort([("_id", -1)])]
-    return  OI_to_str(mongo.db.papers.find({}).sort([("_id", -1)]).next())
+        return docs
+    return {} if not docs else docs[-1]
