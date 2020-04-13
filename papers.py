@@ -22,14 +22,6 @@ def index(solar=""):
     q = request.args.get('q')
     if q:
         search = True
-    # history
-    last_visited = get_papers(False) or {}
-    paper_number = last_visited.get('paperNumber', 1)
-    page_number = last_visited.get('pageNumber', 1)
-    history = { 
-        "paper_number": paper_number,
-        "page_number": page_number
-    }
     page = request.args.get(get_page_parameter(), type=int, default=1)
     per_page = request.args.get(get_per_page_parameter(), type=int, default=20)
     total, papers = get_json_data(JSON_PATH, page, per_page)
@@ -38,7 +30,7 @@ def index(solar=""):
                             record_name='papers', css_framework='bootstrap4')
 
     return render_template('index.html', fixed="", solar=solar,
-                            history=history, papers=papers, pagination=pagination)
+                            papers=papers, pagination=pagination)
 
 
 
@@ -47,7 +39,12 @@ def index(solar=""):
 def status():
     # show history in json file
     if request.method == 'GET':
-        data = get_papers()
+        all = request.args.get('q', 'last')
+        data = {'error': 'Did not undestand what you wanted!'}
+        if all == 'all':
+            data = get_papers()
+        elif all == 'last':
+            data = get_papers(False)
         response = app.response_class(
             response=json.dumps(data),
             status=200,

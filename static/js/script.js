@@ -13,6 +13,19 @@
             .catch(error => console.log(error));
     };
 
+    const lastVisitedPage = (event) => {
+        const btnVisited = document.getElementById("btn-visited");
+        if (btnVisited.id === event.target.id) {
+            event.preventDefault();
+            fetch('/status')
+                .then(res => res.json())
+                .then(data => {
+                    window.location.href = `/?page=${data.pageNumber || 1}&paper=${data.paperNumber || 1}`;
+                })
+                .catch(error => console.log(error));
+        }
+    };
+
     const openBrowser = (query) => {
         const url = "https://www.google.com/search?q=" + query;
         window.open(url);
@@ -53,5 +66,6 @@
         }
     };
     window.addEventListener('load', updateStatusPage);
-    document.addEventListener("click", updateStatusRow);
+    document.addEventListener('click', updateStatusRow);
+    document.addEventListener('click', lastVisitedPage);
 })()
