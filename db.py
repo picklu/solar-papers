@@ -32,3 +32,8 @@ def get_papers(all=True):
     if all:
         return docs
     return {} if not docs else docs[-1]
+
+
+def clear_papers():
+    pageNumber = get_papers(False).get('pageNumber') 
+    return mongo.db.papers.remove( {'pageNumber': {'$lt': pageNumber}})

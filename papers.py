@@ -5,7 +5,7 @@ from config import DATA, JSON_PATH
 
 app = Flask(__name__)
 
-from db import insert_papers, get_papers
+from db import insert_papers, get_papers, clear_papers
 
 def get_json_data(filename, page, per_page):
     with open(filename) as infile:
@@ -79,7 +79,25 @@ def status():
             status=status,
             mimetype='application/json'
         )
-        return response            
+        return response
+
+
+# clear history
+@app.route('/clearstat')
+def clear_stat():
+    data = {'error': 'Did not undestand what you wanted!'}
+    if request.method == 'GET':
+        all = request.args.get('q', '')
+        if all == 'all':
+            total = clear_papers()
+            data = {'success': f'Deleted {total} papers.'}
+    
+    response = app.response_class(
+        response=json.dumps(data),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
 
 
 # 404 error
